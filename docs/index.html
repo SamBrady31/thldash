@@ -119,6 +119,14 @@ button.cardbtn{background:none;border:0;padding:0;display:block}
 a.photo{display:inline-block;font-size:14px;color:var(--text);background:var(--card);border:0.5px solid var(--line);border-radius:8px;padding:8px 14px;min-height:40px;line-height:24px;text-decoration:none}
 button:focus-visible,a.photo:focus-visible{outline:2px solid var(--text);outline-offset:2px}
 .foot{margin-top:16px}
+.fresh,.status{color:#18c24a;font-weight:500}
+:root[data-theme="dark"] .fresh,:root[data-theme="dark"] .status{color:#3dff7a}
+.mv{margin-top:6px}
+.mv summary{font-size:11px;color:var(--muted);opacity:.55;cursor:pointer;padding:8px 0;list-style:none}
+.mv summary::-webkit-details-marker{display:none}
+.mv summary:hover{opacity:1}
+.mv .mvb{margin-top:2px;padding:8px;border:0.5px solid var(--line);border-radius:8px;background:var(--card)}
+.mv select,.mv input{font:inherit;font-size:16px;color:var(--text);background:var(--card);border:0.5px solid var(--line);border-radius:6px;padding:5px 8px;width:100%;margin-bottom:6px}
 .layout.nonotes{grid-template-columns:minmax(0,1fr);max-width:720px}
 .layout.nonotes>main{grid-column:1}
 </style>
@@ -153,11 +161,16 @@ button:focus-visible,a.photo:focus-visible{outline:2px solid var(--text);outline
 </div>
 <script>
 var ALL="__all";
+var MAINT="Maintenance";
+var SHOW_BASES=["Queenstown",MAINT]; // only these bases are shown. To bring others back, add them e.g. "Mt Cook","Fox","Franz Josef"
+function baseLabel(b){return b===ALL?"All bases":b===MAINT?"In maintenance / Wanaka":b;}
+function effBase(tail,a){var m=state.loc[tail];return m?m.base:a.base;}
+function moved(a){var m=state.loc[a.tail];return m&&m.base!==a.a.base?m:null;}
 var UPDATE_HOUR_NZ=6; // the hour (NZ time) the nightly update normally finishes. Used in the "not updated yet" message.
 function nzHour(){return parseInt(new Date().toLocaleString("en-GB",{timeZone:"Pacific/Auckland",hour:"2-digit",hour12:false}),10)%24;}
 function hourText(h){return (h%12||12)+(h<12?" am":" pm");}
 var VIEWS=[["list","List"],["cards","Cards"],["detail","All checks"]];
-var state={hours:null,air:null,demo:false,base:null,view:"list",open:{},done:{},confirm:null};
+var state={hours:null,air:null,demo:false,base:null,view:"list",open:{},done:{},loc:{},confirm:null};
 
 function store(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v);}catch(e){return null;}}
 function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
@@ -250,7 +263,7 @@ function listPill(k){
 function compute(base){
   var T=Object.assign({red:5,amber:20,redDays:7,amberDays:30,hoursPerDay:1},state.air.thresholds||{}),out=[];
   Object.keys(state.air.aircraft).forEach(function(tail){
-    var a=state.air.aircraft[tail];if(a.base!==base)return;
+    var a=state.air.aircraft[tail];if(effBase(tail,a)!==base)return;
     var h=state.hours.aircraft[tail];
     var rate=a.hoursPerDay>0?a.hoursPerDay:T.hoursPerDay;
     var ks=(a.checks||[]).map(function(c){
@@ -275,7 +288,7 @@ function compute(base){
   return {list:out,T:T};
 }
 
-function th(a){return isNum(a.h)?' <span class="small" style="font-weight:400">('+f(a.h)+')</span>':'';}
+function th(a){var s=isNum(a.h)?' <span class="small" style="font-weight:400">('+f(a.h)+')</span>':'';if(moved(a))s+=' <span class="small" style="font-weight:400">· home: '+esc(a.a.base)+'</span>';return s;}
 
 function confirmForm(key){
   return '<div class="cf"><div class="small" style="margin-bottom:6px">Mark this check as done?</div>'
@@ -301,7 +314,7 @@ function checkRows(a){
   }).join("");
 }
 function meta(a){
-  var p=[];if(a.a.type)p.push(a.a.type);if(a.a.sheet)p.push("tech log sheet "+a.a.sheet);if(a.a.raised)p.push("raised "+fmtDate(a.a.raised));
+  var p=[];var mv=moved(a);if(mv)p.push("moved to "+baseLabel(mv.base)+" by "+(mv.name||"unknown")+", "+fmtNoteTime(mv.time));if(a.a.type)p.push(a.a.type);if(a.a.sheet)p.push("tech log sheet "+a.a.sheet);if(a.a.raised)p.push("raised "+fmtDate(a.a.raised));
   return p.length?'<div class="meta">'+esc(p.join(" · "))+'</div>':'';
 }
 function photoLink(a){
@@ -309,7 +322,15 @@ function photoLink(a){
   var d=a.a.photoDate?' <span class="small">(photo from '+esc(fmtDate(a.a.photoDate))+')</span>':'';
   return '<div style="padding:6px 0 4px"><a class="photo" href="'+esc(a.a.photo)+'" target="_blank" rel="noopener">View tech log photo</a>'+d+'</div>';
 }
-function panel(a){return '<div class="panel">'+meta(a)+photoLink(a)+checkRows(a)+'</div>';}
+function moveForm(a){
+  var cur=effBase(a.tail,a.a);
+  var opts=state.bases.filter(function(b){return b!==cur;}).map(function(b){return '<option value="'+esc(b)+'">'+esc(baseLabel(b))+'</option>';}).join("");
+  return '<details class="mv"><summary>Change location</summary><div class="mvb"><div class="small" style="margin-bottom:6px">Location: <b>'+esc(baseLabel(cur))+'</b>. Move this aircraft to:</div>'
+   +'<select class="mvsel" aria-label="New location">'+opts+'</select>'
+   +'<input class="mvn" placeholder="Your name" maxlength="60" autocomplete="name" value="'+esc(store("noteName")||"")+'">'
+   +'<button class="lnk strong" data-act="move" data-ck="'+esc(a.tail)+'">Move aircraft</button></div></details>';
+}
+function panel(a){return '<div class="panel">'+meta(a)+photoLink(a)+checkRows(a)+moveForm(a)+'</div>';}
 
 function vList(d){
   return d.list.map(function(a){
@@ -339,11 +360,14 @@ function render(){
   if(!state.hours||!state.air)return;
   var bases=[];
   Object.keys(state.air.aircraft).forEach(function(t){var b=state.air.aircraft[t].base;if(bases.indexOf(b)<0)bases.push(b);});
+  if(bases.indexOf(MAINT)<0)bases.push(MAINT);
+  bases=bases.filter(function(b){return SHOW_BASES.indexOf(b)>=0;});
+  state.bases=bases;
   if(state.base!==ALL&&bases.indexOf(state.base)<0){var sb=store("base");state.base=(sb===ALL||bases.indexOf(sb)>=0)?sb:bases[0];}
   var sv=store("view");if(sv&&VIEWS.some(function(v){return v[0]===sv;}))state.view=sv;
 
-  document.getElementById("title").textContent=state.base===ALL?"All bases":state.base+" base";
-  document.getElementById("bases").innerHTML=[ALL].concat(bases).map(function(b){return '<button data-base="'+esc(b)+'" class="'+(b===state.base?"on":"")+'">'+(b===ALL?"All bases":esc(b))+'</button>';}).join("");
+  document.getElementById("title").textContent=state.base===ALL?"All bases":state.base===MAINT?baseLabel(MAINT):state.base+" base";
+  document.getElementById("bases").innerHTML=[ALL].concat(bases).map(function(b){return '<button data-base="'+esc(b)+'" class="'+(b===state.base?"on":"")+'">'+esc(baseLabel(b))+'</button>';}).join("");
   document.getElementById("views").innerHTML=VIEWS.map(function(v){return '<button data-view="'+v[0]+'" class="'+(v[0]===state.view?"on":"")+'">'+v[1]+'</button>';}).join("");
 
   var up=new Date(state.hours.updated),age=(Date.now()-up.getTime())/36e5,ban="";
@@ -363,13 +387,14 @@ function render(){
     state.stale=behind>=1;
   }
   if(state.demo)state.stale=false;
+  document.getElementById("updated").className=(!state.demo&&!state.stale)?"fresh":"";
   document.body.classList.toggle("stale",!!state.stale);
   document.getElementById("banners").innerHTML=ban;
 
   var fn=state.view==="cards"?vCards:state.view==="detail"?vDetail:vList,d,html="";
   if(state.base===ALL){
-    bases.forEach(function(b){d=compute(b);html+='<div class="bh">'+esc(b)+'</div>'+fn(d);});
-  }else{d=compute(state.base);html=fn(d);}
+    bases.forEach(function(b){d=compute(b);html+='<div class="bh">'+esc(baseLabel(b))+'</div>'+(d.list.length?fn(d):'<div class="small">No aircraft here.</div>');});
+  }else{d=compute(state.base);html=d.list.length?fn(d):'<div class="small">No aircraft here.</div>';}
   document.getElementById("view").innerHTML=html;
   document.getElementById("foot").textContent="Hours or days remaining until each check, whichever comes first. Red: "+d.T.red+" hrs or "+d.T.redDays+" days or less. Amber: "+d.T.amber+" hrs or "+d.T.amberDays+" days or less. Listed red first, then amber, then green, and within each colour in the order they are likely to fall due, assuming "+d.T.hoursPerDay+" flying hrs a day. Confirm against official maintenance records.";
 }
@@ -435,11 +460,12 @@ function saveNote(){
 document.getElementById("nName").value=store("noteName")||"";
 document.getElementById("nSave").addEventListener("click",saveNote);
 
-// ---------- Completed checks (shared through the same Google Sheet as the notes) ----------
+// ---------- Completed checks and aircraft moves (shared through the same Google Sheet as the notes) ----------
 function ingestDone(list){
-  var d={};
+  var d={};state.loc={};
   (Array.isArray(list)?list:[]).slice().sort(function(x,y){return String(x&&x.time)<String(y&&y.time)?-1:1;}).forEach(function(r){
     if(!r||typeof r.key!=="string")return;
+    if(r.action==="move"){var mp=r.key.split("|");if(mp[0]==="move"&&mp[1]&&mp[2])state.loc[mp[1]]={base:mp[2],name:String(r.name||""),time:r.time};return;}
     if(r.action==="undo"){delete d[r.key];return;}
     if(r.action!=="done")return;
     var nh=parseFloat(r.newHours),ha=parseFloat(r.hoursAt),nd=String(r.newDate||"").slice(0,10);
@@ -468,6 +494,17 @@ function sendDone(rec){
 }
 function doAct(b){
   var key=b.dataset.ck||"",act=b.dataset.act,parts=key.split("|"),tail=parts[0],hrs=state.hours.aircraft[tail];
+  if(act==="move"){
+    var mb=b.closest(".mv"),nb=mb.querySelector(".mvsel").value,mn=mb.querySelector(".mvn").value.trim();
+    if(!mn){alert("Please add your name.");return;}
+    store("noteName",mn);
+    b.disabled=true;b.textContent="Moving…";
+    sendDone({type:"done",action:"move",key:"move|"+tail+"|"+nb,tail:tail,check:nb,name:mn,hoursAt:isNum(hrs)?hrs:"",newHours:"",newDate:""})
+      .then(loadDone)
+      .then(function(){var m=state.loc[tail];if(!m||m.base!==nb)alert("The move was sent but didn’t come back from the shared sheet, so other people may not see it. The Google script may need updating.");})
+      .catch(function(){b.disabled=false;b.textContent="Move aircraft";alert("Couldn’t save. Please try again.");});
+    return;
+  }
   if(act==="ask"){state.confirm=key;render();return;}
   if(act==="cancel"){state.confirm=null;render();return;}
   if(act==="undo"){
