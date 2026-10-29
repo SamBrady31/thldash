@@ -465,7 +465,7 @@ function ingestDone(list){
   var d={};state.loc={};
   (Array.isArray(list)?list:[]).slice().sort(function(x,y){return String(x&&x.time)<String(y&&y.time)?-1:1;}).forEach(function(r){
     if(!r||typeof r.key!=="string")return;
-    if(r.action==="move"){var mp=r.key.split("|");if(mp[0]==="move"&&mp[1]&&mp[2])state.loc[mp[1]]={base:mp[2],name:String(r.name||""),time:r.time};return;}
+    if(r.key.indexOf("move|")===0){var mp=r.key.split("|");if(mp[1]&&mp[2])state.loc[mp[1]]={base:mp[2],name:String(r.name||""),time:r.time};return;}
     if(r.action==="undo"){delete d[r.key];return;}
     if(r.action!=="done")return;
     var nh=parseFloat(r.newHours),ha=parseFloat(r.hoursAt),nd=String(r.newDate||"").slice(0,10);
