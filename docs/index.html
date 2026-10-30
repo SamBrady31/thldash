@@ -44,7 +44,9 @@ body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,-ap
 .grp-r .lbl{flex-direction:row}
 .seg button{flex:1 1 auto;padding:8px 10px;font-size:13px}
 #bases{display:grid;grid-template-columns:1fr 1fr}
-#bases button:first-child{grid-column:1/-1}
+#bases button{order:2}
+#bases button:first-child{grid-column:1/-1;order:0}
+#bases button[data-base="Maintenance"]{grid-column:1/-1;order:1}
 }
 h1{font-size:20px;font-weight:500;margin:0}
 .top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
@@ -163,7 +165,7 @@ button:focus-visible,a.photo:focus-visible{outline:2px solid var(--text);outline
 var ALL="__all";
 var MAINT="Maintenance";
 var SHOW_BASES=["Queenstown","Mt Cook",MAINT]; // only these bases are shown. To bring others back, add them e.g. "Mt Cook","Fox","Franz Josef"
-function baseLabel(b){return b===ALL?"All bases":b===MAINT?"In maintenance / Wanaka":b;}
+function baseLabel(b){return b===ALL?"All bases":b===MAINT?"In Maintenance / Wanaka":b;}
 function effBase(tail,a){var m=state.loc[tail];return m?m.base:a.base;}
 function moved(a){var m=state.loc[a.tail];return m&&m.base!==a.a.base?m:null;}
 var UPDATE_HOUR_NZ=6; // the hour (NZ time) the nightly update normally finishes. Used in the "not updated yet" message.
