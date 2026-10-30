@@ -119,8 +119,8 @@ button.cardbtn{background:none;border:0;padding:0;display:block}
 a.photo{display:inline-block;font-size:14px;color:var(--text);background:var(--card);border:0.5px solid var(--line);border-radius:8px;padding:8px 14px;min-height:40px;line-height:24px;text-decoration:none}
 button:focus-visible,a.photo:focus-visible{outline:2px solid var(--text);outline-offset:2px}
 .foot{margin-top:16px}
-.fresh,.status{color:#18c24a;font-weight:500}
-:root[data-theme="dark"] .fresh,:root[data-theme="dark"] .status{color:#3dff7a}
+.fresh{color:#18c24a;font-weight:500}
+:root[data-theme="dark"] .fresh{color:#3dff7a}
 .mv{margin-top:6px}
 .mv summary{font-size:11px;color:var(--muted);opacity:.55;cursor:pointer;padding:8px 0;list-style:none}
 .mv summary::-webkit-details-marker{display:none}
@@ -162,7 +162,7 @@ button:focus-visible,a.photo:focus-visible{outline:2px solid var(--text);outline
 <script>
 var ALL="__all";
 var MAINT="Maintenance";
-var SHOW_BASES=["Queenstown",MAINT]; // only these bases are shown. To bring others back, add them e.g. "Mt Cook","Fox","Franz Josef"
+var SHOW_BASES=["Queenstown","Mt Cook",MAINT]; // only these bases are shown. To bring others back, add them e.g. "Mt Cook","Fox","Franz Josef"
 function baseLabel(b){return b===ALL?"All bases":b===MAINT?"In maintenance / Wanaka":b;}
 function effBase(tail,a){var m=state.loc[tail];return m?m.base:a.base;}
 function moved(a){var m=state.loc[a.tail];return m&&m.base!==a.a.base?m:null;}
@@ -381,8 +381,6 @@ function render(){
     }else if(behind===1){
       var late=nzHour()>UPDATE_HOUR_NZ;
       ban+='<div class="banner amb strong"><b>Not updated yet today.</b> These are yesterday’s numbers (last updated '+esc(whenFull)+') and don’t include yesterday’s flying, so aircraft may be closer to their checks than shown. '+(late?'Today’s update is late, so check Aeronet directly.':'Today’s update is due around '+hourText(UPDATE_HOUR_NZ)+'.')+'</div>';
-    }else{
-      ban+='<div class="status"><span class="dot d-grn"></span>Up to date · updated today '+esc(up.toLocaleTimeString("en-NZ",{timeZone:"Pacific/Auckland",hour:"numeric",minute:"2-digit"}))+'</div>';
     }
     state.stale=behind>=1;
   }

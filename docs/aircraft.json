@@ -4,9 +4,55 @@
   "amber": 20,
   "redDays": 7,
   "amberDays": 30,
-  "hoursPerDay": 2
+  "hoursPerDay": 3
  },
  "aircraft": {
+  "ZK-HAE": {
+   "base": "Queenstown",
+   "type": "AS350 B2",
+   "sheet": "42",
+   "raised": "2026-05-13",
+   "checks": [
+    {
+     "name": "Cargo hook overhaul (no ext available)",
+     "date": "2026-11-04"
+    },
+    {
+     "name": "150 hr / 6 mth inspection",
+     "hours": 7513.7,
+     "date": "2026-11-13"
+    },
+    {
+     "name": "Review of airworthiness",
+     "date": "2026-11-03"
+    }
+   ],
+   "photo": "techlogs/ZK-HAE.jpg",
+   "photoDate": "2026-10-20"
+  },
+  "ZK-HPS": {
+   "base": "Queenstown",
+   "type": "AS350 B2",
+   "sheet": "51",
+   "raised": "2026-02-27",
+   "checks": [
+    {
+     "name": "Various mod inspections",
+     "date": "2026-10-24"
+    },
+    {
+     "name": "150 / 300 hr engine inspection (no extension)",
+     "hours": 5581.4,
+     "date": "2026-11-29"
+    },
+    {
+     "name": "Review of airworthiness",
+     "date": "2026-11-03"
+    }
+   ],
+   "photo": "techlogs/ZK-HPS.jpg",
+   "photoDate": "2026-10-20"
+  },
   "ZK-HYB": {
    "base": "Queenstown",
    "type": "H130",
@@ -121,34 +167,6 @@
    "photo": "techlogs/ZK-IBG.jpg",
    "photoDate": "2026-10-20"
   },
-  "ZK-IBV": {
-   "base": "Queenstown",
-   "type": "AS350 B2",
-   "sheet": "42",
-   "raised": "2026-09-21",
-   "checks": [
-    {
-     "name": "150 hr / 6 mth and 600 hr / 6 mth inspections",
-     "date": "2026-10-24"
-    },
-    {
-     "name": "150 hr / 300 hr / 12 mth inspection",
-     "hours": 9244.6,
-     "date": "2026-12-05",
-     "note": "Aeronet already shows 9244.75 hrs. Check the sheet and with the engineer."
-    },
-    {
-     "name": "12 mth fire extinguisher and first aid kit",
-     "date": "2026-12-05"
-    },
-    {
-     "name": "Review of airworthiness",
-     "date": "2026-11-22"
-    }
-   ],
-   "photo": "techlogs/ZK-IBV.jpg",
-   "photoDate": "2026-10-20"
-  },
   "ZK-ICZ": {
    "base": "Queenstown",
    "type": "AS350 B2",
@@ -166,52 +184,6 @@
     }
    ],
    "photo": "techlogs/ZK-ICZ.jpg",
-   "photoDate": "2026-10-20"
-  },
-  "ZK-HAE": {
-   "base": "Queenstown",
-   "type": "AS350 B2",
-   "sheet": "42",
-   "raised": "2026-05-13",
-   "checks": [
-    {
-     "name": "Cargo hook overhaul (no ext available)",
-     "date": "2026-11-04"
-    },
-    {
-     "name": "150 hr / 6 mth inspection",
-     "hours": 7513.7,
-     "date": "2026-11-13"
-    },
-    {
-     "name": "Review of airworthiness",
-     "date": "2026-11-03"
-    }
-   ],
-   "photo": "techlogs/ZK-HAE.jpg",
-   "photoDate": "2026-10-20"
-  },
-  "ZK-HPS": {
-   "base": "Queenstown",
-   "type": "AS350 B2",
-   "sheet": "51",
-   "raised": "2026-02-27",
-   "checks": [
-    {
-     "name": "Various mod inspections",
-     "date": "2026-10-24"
-    },
-    {
-     "name": "150 / 300 hr engine inspection (no extension)",
-     "hours": 5581.4,
-     "date": "2026-11-29"
-    },
-    {
-     "name": "Review of airworthiness",
-     "date": "2026-11-03"
-    }
-   ],
-   "photo": "techlogs/ZK-HPS.jpg",
    "photoDate": "2026-10-20"
   },
   "ZK-IDB": {
@@ -249,71 +221,291 @@
    "photo": "techlogs/ZK-IDB.jpg",
    "photoDate": "2026-10-20"
   },
+  "ZK-HAA": {
+   "base": "Mt Cook",
+   "checks": [
+    {
+     "name": "First aid kit",
+     "date": "2026-11-04"
+    },
+    {
+     "name": "Compass swing",
+     "date": "2026-12-05"
+    },
+    {
+     "name": "Interior placards and markings (AS350 ASB 11-30-001)",
+     "date": "2026-12-20"
+    },
+    {
+     "name": "Avionics bi-annual",
+     "date": "2027-01-06"
+    },
+    {
+     "name": "150 hr / 12 mth and 2500 hr / 72 mth inspection",
+     "hours": 8579.85,
+     "date": "2027-01-25"
+    },
+    {
+     "name": "Review of airworthiness",
+     "date": "2027-03-05"
+    }
+   ],
+   "type": "AS350 B2",
+   "sheet": "38",
+   "raised": "2026-10-20",
+   "photo": "techlogs/ZK-HAA.jpg",
+   "photoDate": "2026-10-30"
+  },
   "ZK-HCG": {
    "base": "Mt Cook",
-   "checks": []
+   "checks": [
+    {
+     "name": "E2-10 re-torques (M/R servos)",
+     "hours": 404.2,
+     "from": 396.2,
+     "note": "Handwritten at the bottom of the sheet with no sign-off seen. Reads 396.20-404.20. Confirm with engineer."
+    },
+    {
+     "name": "25 hr engine power check",
+     "hours": 406.7
+    },
+    {
+     "name": "25 hr engine power check",
+     "hours": 431.7
+    },
+    {
+     "name": "450 hr M/R blade one-off inspection",
+     "hours": 450.0
+    },
+    {
+     "name": "25 hr engine power check",
+     "hours": 456.7
+    },
+    {
+     "name": "150 hr / 6 mth inspection",
+     "hours": 456.7,
+     "date": "2027-01-15"
+    },
+    {
+     "name": "Cargo hook and load cell calendar overhaul (no ext available)",
+     "date": "2027-03-07",
+     "note": "New date is handwritten over the old one (8/9/26). Confirm."
+    },
+    {
+     "name": "Review of airworthiness",
+     "date": "2026-10-17",
+     "note": "Sheet shows 17/10/26, which has passed. Confirm the review was done and a new sheet raised."
+    }
+   ],
+   "type": "H125",
+   "sheet": "4",
+   "raised": "2026-07-16",
+   "photo": "techlogs/ZK-HCG.jpg",
+   "photoDate": "2026-10-30"
   },
-  "ZK-INE": {
+  "ZK-HJQ": {
    "base": "Mt Cook",
    "checks": []
   },
-  "ZK-HSN": {
-   "base": "Mt Cook",
-   "checks": []
-  },
-  "ZK-ILN": {
+  "ZK-HRQ": {
    "base": "Mt Cook",
    "checks": []
   },
   "ZK-HRV": {
    "base": "Mt Cook",
+   "checks": [
+    {
+     "name": "100 hr airframe / engine inspection",
+     "hours": 11041.1
+    },
+    {
+     "name": "150 hr / 6 mth inspection",
+     "hours": 11091.1,
+     "date": "2026-12-10",
+     "note": "The year on the sheet looks overwritten. Read as 10/12/26. Confirm."
+    },
+    {
+     "name": "Review of airworthiness",
+     "date": "2027-03-22"
+    }
+   ],
+   "type": "AS350 B2",
+   "sheet": "33",
+   "raised": "2026-06-10",
+   "photo": "techlogs/ZK-HRV.jpg",
+   "photoDate": "2026-10-30"
+  },
+  "ZK-HSN": {
+   "base": "Mt Cook",
+   "checks": [
+    {
+     "name": "100 hr airframe inspection (+10% extension applied)",
+     "hours": 5024.2,
+     "note": "Handwritten new due figure, reads 5024.2. Aeronet already shows more hours than this. Check the sheet and with the engineer."
+    },
+    {
+     "name": "150 / 300 / 600 hr / 6 mth inspection",
+     "hours": 5064.2,
+     "date": "2027-01-08"
+    },
+    {
+     "name": "Review of airworthiness",
+     "date": "2027-07-08"
+    }
+   ],
+   "type": "AS350 B2",
+   "sheet": "33",
+   "raised": "2026-07-08",
+   "photo": "techlogs/ZK-HSN.jpg",
+   "photoDate": "2026-10-30"
+  },
+  "ZK-IBV": {
+   "base": "Mt Cook",
+   "type": "AS350 B2",
+   "sheet": "42",
+   "raised": "2026-09-21",
+   "checks": [
+    {
+     "name": "150 hr / 6 mth and 600 hr / 6 mth inspections",
+     "date": "2026-10-24"
+    },
+    {
+     "name": "150 hr / 300 hr / 12 mth inspection",
+     "hours": 9244.6,
+     "date": "2026-12-05",
+     "note": "Aeronet already shows 9244.75 hrs. Check the sheet and with the engineer."
+    },
+    {
+     "name": "12 mth fire extinguisher and first aid kit",
+     "date": "2026-12-05"
+    },
+    {
+     "name": "Review of airworthiness",
+     "date": "2026-11-22"
+    }
+   ],
+   "photo": "techlogs/ZK-IBV.jpg",
+   "photoDate": "2026-10-20"
+  },
+  "ZK-ICD": {
+   "base": "Mt Cook",
    "checks": []
   },
-  "ZK-HAM": {
+  "ZK-IDM": {
+   "base": "Mt Cook",
+   "checks": [
+    {
+     "name": "100 hr airframe and engine inspections",
+     "hours": 8261.3
+    },
+    {
+     "name": "Biennial avionics inspections",
+     "date": "2027-02-18"
+    },
+    {
+     "name": "150 hr / 6 mth inspection",
+     "hours": 8311.3,
+     "date": "2027-04-13"
+    },
+    {
+     "name": "Review of airworthiness",
+     "date": "2027-04-22"
+    }
+   ],
+   "type": "AS350 B2",
+   "sheet": "30",
+   "raised": "2026-10-12",
+   "photo": "techlogs/ZK-IDM.jpg",
+   "photoDate": "2026-10-30"
+  },
+  "ZK-ILN": {
+   "base": "Mt Cook",
+   "checks": [
+    {
+     "name": "Avionics inspection (extension applied)",
+     "date": "2026-12-12"
+    },
+    {
+     "name": "150 hr / 6 mth inspection",
+     "hours": 9154.6,
+     "date": "2026-12-19",
+     "note": "The 100 hr inspection was extended 10% to this same figure (struck through on the sheet)."
+    },
+    {
+     "name": "Review of airworthiness",
+     "date": "2027-01-16"
+    }
+   ],
+   "type": "AS350 B2",
+   "sheet": "5",
+   "raised": "2026-06-19",
+   "photo": "techlogs/ZK-ILN.jpg",
+   "photoDate": "2026-10-30"
+  },
+  "ZK-INE": {
+   "base": "Mt Cook",
+   "checks": [
+    {
+     "name": "25 hr engine power check",
+     "hours": 4596.05
+    },
+    {
+     "name": "25 hr engine power check",
+     "hours": 4621.05
+    },
+    {
+     "name": "150 hr / 12 mth inspection",
+     "hours": 4621.05,
+     "date": "2027-05-15"
+    },
+    {
+     "name": "Cargo hook cable inspection (DCA/EQUIP/28A Pt 2)",
+     "date": "2026-12-19"
+    },
+    {
+     "name": "ASB 11-30-001 interior door placard",
+     "date": "2026-12-20"
+    },
+    {
+     "name": "EASA 2026-0052 fuse cover inspection",
+     "date": "2026-12-26"
+    },
+    {
+     "name": "24 mth avionics inspections (no ext available)",
+     "date": "2027-01-22"
+    },
+    {
+     "name": "Review of airworthiness",
+     "date": "2026-11-29"
+    }
+   ],
+   "type": "AS350 B3",
+   "sheet": "5",
+   "raised": "2026-10-08",
+   "photo": "techlogs/ZK-INE.jpg",
+   "photoDate": "2026-10-30"
+  },
+  "ZK-HDL": {
    "base": "Fox",
    "checks": []
   },
-  "ZK-HAN": {
+  "ZK-HFK": {
    "base": "Fox",
    "checks": []
   },
-  "ZK-HAO": {
-   "base": "Fox",
-   "checks": []
-  },
-  "ZK-HAP": {
-   "base": "Fox",
-   "checks": []
-  },
-  "ZK-HAQ": {
-   "base": "Fox",
-   "checks": []
-  },
-  "ZK-HAR": {
-   "base": "Fox",
-   "checks": []
-  },
-  "ZK-HAS": {
+  "ZK-HGV": {
    "base": "Franz Josef",
    "checks": []
   },
-  "ZK-HAT": {
+  "ZK-HNQ": {
    "base": "Franz Josef",
    "checks": []
   },
-  "ZK-HAU": {
+  "ZK-HSM": {
    "base": "Franz Josef",
    "checks": []
   },
-  "ZK-HAV": {
-   "base": "Franz Josef",
-   "checks": []
-  },
-  "ZK-HAW": {
-   "base": "Franz Josef",
-   "checks": []
-  },
-  "ZK-HAX": {
+  "ZK-IBW": {
    "base": "Franz Josef",
    "checks": []
   }
